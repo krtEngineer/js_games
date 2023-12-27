@@ -329,9 +329,108 @@ body {
   height: 4rem;
   width: 4rem;
   text-align: center;
-  padding: 1.3rem;
   border-radius: var(--borderRadius);
   box-shadow: 2px 2px 2px 2px var(--grey-400);
+  padding: 4px;
+}
+
+.dice:hover {
+  cursor: pointer;
+}
+
+.dice-selected {
+  background: var(--primary-200);
+}
+
+.dot {
+  display: block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: var(--black);
+}
+
+/* 
+dice first face
+ */
+.face-1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 
+dice second face
+ */
+.face-2 {
+  display: flex;
+  justify-content: space-between;
+}
+
+.face-2 .dot:nth-of-type(2) {
+  align-self: flex-end;
+}
+
+/* 
+dice third face
+ */
+.face-3 {
+  display: flex;
+  justify-content: space-between;
+}
+
+.face-3 .dot:nth-of-type(3) {
+  align-self: flex-end;
+}
+
+.face-3 .dot:nth-of-type(2) {
+  align-self: center;
+}
+
+/* 
+dice fourth face
+ */
+.face-4 {
+  display: flex;
+  column-gap: 2rem;
+}
+
+.face-4 .dice-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* 
+dice fifth face
+ */
+.face-5 {
+  display: flex;
+  column-gap: 0.65rem;
+}
+
+.face-5 .dice-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.face-5 .dice-column:nth-of-type(2) {
+  justify-content: center;
+}
+
+/* 
+dice sixth face
+ */
+.face-6 {
+  display: flex;
+  column-gap: 2rem;
+}
+
+.face-6 .dice-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .game-btn {
@@ -339,4 +438,9 @@ body {
   text-align: center;
   background: #0b2434;
   font-size: 1.5rem;
+}
+
+.game-btn:hover {
+  background: var(--primary-200);
+  color: var(--black);
 }
