@@ -30,7 +30,9 @@ const getRandomNumber = () => {
 
 const assignDiceFaces = () => {
   [...diceBlocks].map((diceBlock) => {
-    diceBlock.innerHTML = getRandomDiceFaceHtml();
+    if (!isDiceBlockSelected(diceBlock)) {
+      diceBlock.innerHTML = getRandomDiceFaceHtml();
+    }
   });
 };
 
@@ -48,3 +50,8 @@ gameBtn.addEventListener("click", () => {
     diceBlock.classList.toggle("dice-selected");
   });
 });
+
+// Check if dice block selected or not
+const isDiceBlockSelected = (diceBlock) => {
+  return diceBlock.classList.contains("dice-selected");
+};
