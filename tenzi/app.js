@@ -39,3 +39,12 @@ gameBtn.addEventListener("click", () => {
   assignDiceFaces();
   increaseRollsCount();
 });
+
+/**
+ * Change color when selecting any dice
+ */
+[...diceBlocks].map((diceBlock) => {
+  diceBlock.addEventListener("click", () => {
+    diceBlock.classList.toggle("dice-selected");
+  });
+});
