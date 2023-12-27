@@ -73,6 +73,7 @@ const hasGameFinished = () => {
 
 const gameStatusCheck = () => {
   if (hasGameFinished()) {
+    clearInterval(updateTimeCountdown);
     clearInterval(gameStatusCoutdown);
   }
 };
@@ -80,3 +81,18 @@ const gameStatusCheck = () => {
 let gameStatusCoutdown = setInterval(gameStatusCheck, 500);
 
 gameStatusCheck();
+
+/**
+ * Change time
+ */
+let currRunningTime = 0;
+const currTime = document.querySelector("#time");
+
+const updateTime = () => {
+  currRunningTime++;
+  currTime.textContent = `${currRunningTime}s`;
+};
+
+let updateTimeCountdown = setInterval(updateTime, 1000);
+
+updateTime();
