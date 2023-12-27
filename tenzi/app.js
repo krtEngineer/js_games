@@ -2,8 +2,6 @@
  * Incrementing roll count on clicking roll button
  */
 const rollCount = document.querySelector("#roll-count");
-// Intitial rolls count is zero
-rollCount.textContent = `0`;
 
 const gameBtn = document.querySelector(".game-btn");
 const increaseRollsCount = () => {
@@ -86,6 +84,7 @@ const gameStatusCheck = () => {
     clearInterval(updateTimeCountdown);
     clearInterval(gameStatusCoutdown);
     updateBestTime();
+    initialSetup();
   }
 };
 
@@ -100,7 +99,6 @@ const setBestTime = () => {
   let currBestTime = +localStorage.getItem("bestTime");
   bestTime.textContent = `${currBestTime}s`;
 };
-setBestTime();
 
 const updateTime = () => {
   currRunningTime++;
@@ -121,14 +119,20 @@ const updateBestTime = () => {
 
 const storeBestTime = (currRunningTime) => {
   localStorage.setItem("bestTime", currRunningTime);
-  bestTime.textContent = `${currRunningTime}s`;
 };
 
 /**
  * Initial game setup
  */
 
-gameBtn.textContent = `start game`;
-
 const dices = document.querySelector(".dices");
-dices.classList.add("hide");
+
+const initialSetup = () => {
+  gameBtn.textContent = `start game`;
+  dices.classList.add("hide");
+  currTime.textContent = `0s`;
+  rollCount.textContent = `0`;
+  setBestTime();
+};
+
+initialSetup();
