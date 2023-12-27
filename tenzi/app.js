@@ -37,6 +37,9 @@ const assignDiceFaces = () => {
 
 // Action on clicking game button
 gameBtn.addEventListener("click", () => {
+  if (gameBtn.textContent.toLowerCase() === "start game") {
+    gameBtn.textContent = "roll";
+  }
   assignDiceFaces();
   increaseRollsCount();
 });
@@ -120,3 +123,9 @@ const storeBestTime = (currRunningTime) => {
   localStorage.setItem("bestTime", currRunningTime);
   bestTime.textContent = `${currRunningTime}s`;
 };
+
+/**
+ * Initial game setup
+ */
+
+gameBtn.textContent = `start game`;
