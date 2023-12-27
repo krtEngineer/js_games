@@ -38,8 +38,12 @@ const assignDiceFaces = () => {
 // Action on clicking game button
 gameBtn.addEventListener("click", () => {
   if (gameBtn.textContent.toLowerCase() === "start game") {
+    if (dices.classList.contains("hide")) {
+      dices.classList.remove("hide");
+    }
     gameBtn.textContent = "roll";
   }
+
   assignDiceFaces();
   increaseRollsCount();
 });
@@ -129,3 +133,6 @@ const storeBestTime = (currRunningTime) => {
  */
 
 gameBtn.textContent = `start game`;
+
+const dices = document.querySelector(".dices");
+dices.classList.add("hide");

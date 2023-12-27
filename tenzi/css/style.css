@@ -267,7 +267,7 @@ body {
 }
 
 .container {
-  height: 60vh;
+  /* height: 60vh; */
   width: 80vw;
   margin: 0 auto;
   margin-top: 6rem;
@@ -443,4 +443,8 @@ dice sixth face
 .game-btn:hover {
   background: var(--primary-200);
   color: var(--black);
+}
+
+.hide {
+  display: none;
 }
