@@ -55,3 +55,28 @@ gameBtn.addEventListener("click", () => {
 const isDiceBlockSelected = (diceBlock) => {
   return diceBlock.classList.contains("dice-selected");
 };
+
+// Check if game finished
+const hasGameFinished = () => {
+  const commonClass = diceBlocks[0].classList[1];
+  let correctDiceCount = 0;
+  [...diceBlocks].map((diceBlock) => {
+    const diceClass = diceBlock.classList[1];
+    if (isDiceBlockSelected(diceBlock) && commonClass === diceClass) {
+      correctDiceCount++;
+    } else {
+      return;
+    }
+    return correctDiceCount === 10;
+  });
+};
+
+const gameStatusCheck = () => {
+  if (hasGameFinished()) {
+    clearInterval(gameStatusCoutdown);
+  }
+};
+
+let gameStatusCoutdown = setInterval(gameStatusCheck, 500);
+
+gameStatusCheck();
