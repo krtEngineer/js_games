@@ -1,28 +1,163 @@
-/**
- * Incrementing roll count on clicking roll button
- */
-const rollCount = document.querySelector("#roll-count");
+import {
+  rollCount,
+  gameBtn,
+  diceBlocks,
+  time,
+  bestTime,
+  dices,
+} from "./elements.js";
 
-const gameBtn = document.querySelector(".game-btn");
-const increaseRollsCount = () => {
-  let currRollsCount = +rollCount.textContent;
-  currRollsCount++;
-  rollCount.textContent = `${currRollsCount}`;
+import { getRandomDiceFaceHtml } from "./utility.js";
+
+/**
+ * Some game variables with their initial value
+ * currTime => current runnng time. 0
+ * currBestTime => current best time. best time from local storage or 0 if nothing in local storage
+ * currRollsCount => current rolls count. current rolls count. 0
+ * areAllDiceSelected => current status of all dice selection. false
+ * isDiceDivHidden => current visibility status of dices division. true
+ * gameBtnContent => text content of game button. 'new game'
+ */
+let currTime;
+let currBestTime;
+let currRollsCount;
+let areAllDiceSelected;
+let isDiceDivHidden;
+let gameBtnContent;
+let areAllDiceSame;
+let isGameFinished;
+let isGameAtStart;
+let totalDiceCount = 10;
+
+const resetTimer = () => {
+  currTime = 0;
+  time.textContent = `${currTime}s`;
+};
+
+const updateBestTime = () => {
+  currBestTime = +localStorage.getItem("bestTime");
+  if (currBestTime === 1000000) {
+    bestTime.textContent = `0s`;
+  } else {
+    bestTime.textContent = `${currBestTime}s`;
+  }
+};
+
+const resetRollsCount = () => {
+  currRollsCount = 0;
+  rollCount.textContent = `0`;
+};
+
+const unSelectAllDices = () => {
+  [...diceBlocks].map((diceBlock) => {
+    if (diceBlock.classList.contains("dice-selected")) {
+      diceBlock.classList.remove("dice-selected");
+    }
+  });
+  areAllDiceSelected = false;
+};
+
+const hideDiceDiv = () => {
+  if (!dices.classList.contains("hide")) {
+    dices.classList.add("hide");
+  }
+  isDiceDivHidden = true;
+};
+
+const changeGameBtnContent = (newContent) => {
+  gameBtnContent = newContent;
+  gameBtn.textContent = gameBtnContent;
+};
+
+const setGameStartFlag = () => {
+  isGameAtStart =
+    currTime === 0 &&
+    currBestTime === +localStorage.getItem("bestTime") &&
+    currRollsCount === 0 &&
+    areAllDiceSelected === false &&
+    isDiceDivHidden === true &&
+    gameBtnContent === "new game";
+};
+
+const getSameDiceCount = () => {
+  let sameDiceCount = 0;
+  if (
+    diceBlocks[0].children[0] === null ||
+    diceBlocks[0].children[0] === undefined
+  ) {
+    return sameDiceCount;
+  }
+  const firstDiceClass = diceBlocks[0].children[0].classList[1];
+  [...diceBlocks].map((diceBlock) => {
+    const diceClass = diceBlock.children[0].classList[1];
+    sameDiceCount += diceClass === firstDiceClass;
+  });
+  return sameDiceCount;
+};
+
+const setSameDiceFlag = () => {
+  const sameDiceCount = getSameDiceCount();
+  if (sameDiceCount === totalDiceCount) {
+    areAllDiceSame = true;
+  } else {
+    areAllDiceSame = false;
+  }
+};
+
+const isDiceBlockSelected = (diceBlock) => {
+  return diceBlock.classList.contains("dice-selected");
+};
+
+const getSelectedDicesCount = () => {
+  let selectedDiceCount = 0;
+  [...diceBlocks].map((diceBlock) => {
+    selectedDiceCount += isDiceBlockSelected(diceBlock);
+  });
+  return selectedDiceCount;
+};
+
+const setSelectedDicesFlag = () => {
+  const selectedDiceCount = getSelectedDicesCount();
+  if (selectedDiceCount === totalDiceCount) {
+    areAllDiceSelected = true;
+  } else {
+    areAllDiceSelected = false;
+  }
+};
+
+const setGameFinishFlag = () => {
+  setSameDiceFlag();
+  setSelectedDicesFlag();
+  isGameFinished = areAllDiceSelected && areAllDiceSame;
+};
+
+const initializeGame = () => {
+  setBestTimeInStorage();
+  resetTimer();
+  updateBestTime();
+  resetRollsCount();
+  unSelectAllDices();
+  hideDiceDiv();
+  changeGameBtnContent("new game");
+  setGameFinishFlag();
+  setGameStartFlag();
 };
 
 /**
- * Assigning dice faces
+ * set timer to zero.
+ * update best time.
+ * set rolls count to zero.
+ * unselect all dice blocks
+ * hide dice-block division
+ * change game button content to 'New Game'
  */
-import { diceFace } from "./diceFaces.js";
-const diceBlocks = document.querySelectorAll(".dice-block");
-
-const getRandomDiceFaceHtml = () => {
-  return diceFace[`${getRandomNumber()}`][`html`];
-};
-
-// Get random number between 1 to 6
-const getRandomNumber = () => {
-  return Math.floor(Math.random() * 6) + 1;
+const isGameAtFinish = () => {
+  setGameFinishFlag();
+  if (isGameFinished) {
+    clearInterval(gameFinishTimer);
+    clearInterval(updateTimeTimer);
+    initializeGame();
+  }
 };
 
 const assignDiceFaces = () => {
@@ -32,22 +167,30 @@ const assignDiceFaces = () => {
     }
   });
 };
-let updateTimeCountdown;
-let gameStatusCoutdown;
 
-// Action on clicking game button
-gameBtn.addEventListener("click", () => {
-  if (gameBtn.textContent.toLowerCase() === "start game") {
-    if (dices.classList.contains("hide")) {
-      dices.classList.remove("hide");
-    }
-    gameBtn.textContent = "roll";
-    updateTimeCountdown = setInterval(updateTime, 1000);
-    gameStatusCoutdown = setInterval(gameStatusCheck, 500);
+const increaseRollsCount = () => {
+  let currRollsCount = +rollCount.textContent;
+  currRollsCount++;
+  rollCount.textContent = `${currRollsCount}`;
+};
+
+const showDiceDiv = () => {
+  if (dices.classList.contains("hide")) {
+    dices.classList.remove("hide");
   }
+  isDiceDivHidden = false;
+};
 
-  assignDiceFaces();
-  increaseRollsCount();
+// game btn listener
+gameBtn.addEventListener("click", () => {
+  if (gameBtnContent === "roll") {
+    assignDiceFaces();
+    increaseRollsCount();
+  } else if (gameBtnContent === "new game") {
+    startGame();
+  } else {
+    throw new Error("Incorrect game button name");
+  }
 });
 
 /**
@@ -59,80 +202,40 @@ gameBtn.addEventListener("click", () => {
   });
 });
 
-// Check if dice block selected or not
-const isDiceBlockSelected = (diceBlock) => {
-  return diceBlock.classList.contains("dice-selected");
-};
-
-// Check if game finished
-const hasGameFinished = () => {
-  const commonClass = diceBlocks[0].classList[1];
-  let correctDiceCount = 0;
-  [...diceBlocks].map((diceBlock) => {
-    const diceClass = diceBlock.classList[1];
-    if (isDiceBlockSelected(diceBlock) && commonClass === diceClass) {
-      correctDiceCount++;
-    } else {
-      return;
-    }
-  });
-  return correctDiceCount === 10;
-};
-
-const gameStatusCheck = () => {
-  if (hasGameFinished()) {
-    clearInterval(updateTimeCountdown);
-    clearInterval(gameStatusCoutdown);
-    updateBestTime();
-    initialSetup();
-  }
-};
-
-/**
- * Change time and store best time
- */
-let currRunningTime = 0;
-const currTime = document.querySelector("#time");
-const bestTime = document.querySelector("#best-time");
-
-const setBestTime = () => {
-  let currBestTime = +localStorage.getItem("bestTime");
-  bestTime.textContent = `${currBestTime}s`;
-};
-
 const updateTime = () => {
-  currRunningTime++;
-  currTime.textContent = `${currRunningTime}s`;
+  currTime++;
+  time.textContent = `${currTime}s`;
 };
 
-const updateBestTime = () => {
-  let currBestTime = localStorage.getItem("bestTime");
-  if (currBestTime === null || currBestTime === undefined) {
-    storeBestTime(currRunningTime);
+const storeBestTime = (newBestTime) => {
+  localStorage.setItem("bestTime", newBestTime);
+};
+
+const setBestTimeInStorage = () => {
+  let currBestTime = +localStorage.getItem("bestTime");
+  if (currBestTime === 0) {
+    storeBestTime(1000000);
   } else {
-    currBestTime = +currBestTime;
-  }
-  if (currRunningTime < currBestTime) {
-    storeBestTime(currRunningTime);
+    if (currTime < currBestTime) {
+      storeBestTime(currTime);
+    }
   }
 };
 
-const storeBestTime = (currRunningTime) => {
-  localStorage.setItem("bestTime", currRunningTime);
-};
+let gameFinishTimer;
+let updateTimeTimer;
 
 /**
- * Initial game setup
+ * if game is at initial point then start game
  */
-
-const dices = document.querySelector(".dices");
-
-const initialSetup = () => {
-  gameBtn.textContent = `start game`;
-  dices.classList.add("hide");
-  currTime.textContent = `0s`;
-  rollCount.textContent = `0`;
-  setBestTime();
+const startGame = () => {
+  if (isGameAtStart) {
+    showDiceDiv();
+    assignDiceFaces();
+    changeGameBtnContent("roll");
+    gameFinishTimer = setInterval(isGameAtFinish, 500);
+    updateTimeTimer = setInterval(updateTime, 1000);
+  }
 };
 
-initialSetup();
+initializeGame();
