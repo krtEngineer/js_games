@@ -7,7 +7,6 @@ rollCount.textContent = `0`;
 
 const gameBtn = document.querySelector(".game-btn");
 const increaseRollsCount = () => {
-  console.log(`Incrementing count`);
   let currRollsCount = +rollCount.textContent;
   currRollsCount++;
   rollCount.textContent = `${currRollsCount}`;
@@ -67,14 +66,15 @@ const hasGameFinished = () => {
     } else {
       return;
     }
-    return correctDiceCount === 10;
   });
+  return correctDiceCount === 10;
 };
 
 const gameStatusCheck = () => {
   if (hasGameFinished()) {
     clearInterval(updateTimeCountdown);
     clearInterval(gameStatusCoutdown);
+    updateBestTime();
   }
 };
 
@@ -83,10 +83,17 @@ let gameStatusCoutdown = setInterval(gameStatusCheck, 500);
 gameStatusCheck();
 
 /**
- * Change time
+ * Change time and store best time
  */
 let currRunningTime = 0;
 const currTime = document.querySelector("#time");
+const bestTime = document.querySelector("#best-time");
+
+const setBestTime = () => {
+  let currBestTime = +localStorage.getItem("bestTime");
+  bestTime.textContent = `${currBestTime}s`;
+};
+setBestTime();
 
 const updateTime = () => {
   currRunningTime++;
@@ -96,3 +103,20 @@ const updateTime = () => {
 let updateTimeCountdown = setInterval(updateTime, 1000);
 
 updateTime();
+
+const updateBestTime = () => {
+  let currBestTime = localStorage.getItem("bestTime");
+  if (currBestTime === null || currBestTime === undefined) {
+    storeBestTime(currRunningTime);
+  } else {
+    currBestTime = +currBestTime;
+  }
+  if (currRunningTime < currBestTime) {
+    storeBestTime(currRunningTime);
+  }
+};
+
+const storeBestTime = (currRunningTime) => {
+  localStorage.setItem("bestTime", currRunningTime);
+  bestTime.textContent = `${currRunningTime}s`;
+};
