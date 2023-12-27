@@ -34,6 +34,8 @@ const assignDiceFaces = () => {
     }
   });
 };
+let updateTimeCountdown;
+let gameStatusCoutdown;
 
 // Action on clicking game button
 gameBtn.addEventListener("click", () => {
@@ -42,6 +44,8 @@ gameBtn.addEventListener("click", () => {
       dices.classList.remove("hide");
     }
     gameBtn.textContent = "roll";
+    updateTimeCountdown = setInterval(updateTime, 1000);
+    gameStatusCoutdown = setInterval(gameStatusCheck, 500);
   }
 
   assignDiceFaces();
@@ -85,10 +89,6 @@ const gameStatusCheck = () => {
   }
 };
 
-let gameStatusCoutdown = setInterval(gameStatusCheck, 500);
-
-gameStatusCheck();
-
 /**
  * Change time and store best time
  */
@@ -106,10 +106,6 @@ const updateTime = () => {
   currRunningTime++;
   currTime.textContent = `${currRunningTime}s`;
 };
-
-let updateTimeCountdown = setInterval(updateTime, 1000);
-
-updateTime();
 
 const updateBestTime = () => {
   let currBestTime = localStorage.getItem("bestTime");
