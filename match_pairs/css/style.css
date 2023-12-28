@@ -339,8 +339,10 @@ body {
   height: 5rem;
   width: 5rem;
   border-radius: var(--borderRadius);
-  /* temp */
-  border: 1px solid black;
+}
+
+.block:hover {
+  cursor: pointer;
 }
 
 /* block content */
@@ -355,6 +357,16 @@ body {
   font-size: 4rem;
   color: transparent;
   text-shadow: 0 0 0 var(--grey-600);
+}
+
+.block-content:hover {
+  background: var(--primary-200);
+}
+
+/* selected block */
+.selected {
+  background: var(--white);
+  border: 2px solid #228b22;
 }
 
 /* new game button */
