@@ -1,12 +1,12 @@
 import { getEmojieList } from "./emojis.js";
 import { getElement, getElementList } from "./utils.js";
 
-import { getBlockContentStruct } from "./structure.js";
+import { getBlockStruct } from "./structure.js";
 
-const container = getElement(".container");
 const pairsDataValue = getElement(".pairs-data").children[1];
 const totalMovesValue = getElement(".total-moves-data").children[1];
-const blockList = document.querySelectorAll(".block");
+const blocks = getElement(".blocks");
+const gameBtn = getElement(".game-btn");
 
 // container.innerHTML = getEmojieList(8)
 //   .map((emojiCode) => {
@@ -37,9 +37,7 @@ const setTotalMoves = (totalMovesCount) => {
 };
 
 const setBlockContent = () => {
-  blockList.forEach((block) => {
-    block.appendChild(getBlockContentStruct());
-  });
+  blocks.innerHTML = getBlockStruct();
 };
 
 const initializeGame = () => {
@@ -49,3 +47,10 @@ const initializeGame = () => {
 };
 
 initializeGame();
+
+/**
+ * New game click event listener
+ */
+gameBtn.addEventListener("click", () => {
+  initializeGame();
+});
