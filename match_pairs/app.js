@@ -1,18 +1,18 @@
 import { getEmojieList } from "./emojis.js";
 import { getElement, getElementList } from "./utils.js";
 
-import { getBlockStruct } from "./structure.js";
+import {
+  getBlocksStruct,
+  getBlockStruct,
+  defaultEmojiContent,
+} from "./structure.js";
 
 const pairsDataValue = getElement(".pairs-data").children[1];
 const totalMovesValue = getElement(".total-moves-data").children[1];
 const blocks = getElement(".blocks");
 const gameBtn = getElement(".game-btn");
 
-// container.innerHTML = getEmojieList(8)
-//   .map((emojiCode) => {
-//     return ` <h1>${emojiCode}</h1>`;
-//   })
-//   .join("");
+let emojiList = [];
 
 /**
  * to set initial screen do following
@@ -37,13 +37,21 @@ const setTotalMoves = (totalMovesCount) => {
 };
 
 const setBlockContent = () => {
-  blocks.innerHTML = getBlockStruct();
+  blocks.innerHTML = getBlocksStruct();
+
+  [...blocks.children].forEach((block) => {
+    block.addEventListener("click", (e) => {
+      e.preventDefault();
+      blockClickListener(e);
+    });
+  });
 };
 
 const initializeGame = () => {
   setPairsMatched(0);
   setTotalMoves(0);
   setBlockContent();
+  emojiList = getEmojieList(8);
 };
 
 initializeGame();
@@ -54,3 +62,28 @@ initializeGame();
 gameBtn.addEventListener("click", () => {
   initializeGame();
 });
+
+/**
+ * Event listener for click event on block
+ */
+
+const blockClickListener = (e) => {
+  setTotalMoves(++gameVariables.totalMoves);
+  const selectedBlock = e.currentTarget;
+  const { selectedIndex, selectedContent } =
+    getSelectedBlockData(selectedBlock);
+  selectedBlock.innerHTML = getNewBlockContent(selectedIndex, selectedContent);
+};
+
+const getSelectedBlockData = (selectedBlock) => {
+  let selectedBlockContent = selectedBlock.children[0];
+  let selectedIndex = selectedBlockContent.dataset.id;
+  let selectedContent = selectedBlockContent.dataset.content;
+  return { selectedIndex, selectedContent };
+};
+
+const getNewBlockContent = (selectedIndex, selectedContent) => {
+  let isSelected = selectedContent.toLowerCase() === "default";
+  let content = isSelected ? emojiList[selectedIndex] : defaultEmojiContent;
+  return getBlockStruct(content, selectedIndex, isSelected);
+};
