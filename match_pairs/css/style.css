@@ -355,13 +355,13 @@ body {
   place-items: center;
   place-content: center;
   font-size: 4rem;
-  color: transparent;
-  text-shadow: 0 0 0 var(--grey-600);
+  /* color: transparent;
+  text-shadow: 0 0 0 var(--grey-600); */
 }
 
-.block-content:hover {
+/* .block-content:hover {
   background: var(--primary-200);
-}
+} */
 
 /* selected block */
 .selected {
