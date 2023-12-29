@@ -448,3 +448,66 @@ dice sixth face
 .hide {
   display: none;
 }
+
+@media screen and (max-width: 490px) {
+  .container {
+    margin-top: 1rem;
+    width: 90vw;
+  }
+
+  .game-desc {
+    display: none;
+  }
+
+  .game-data {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    row-gap: 0.6rem;
+  }
+
+  .game-data div:nth-child(1) {
+    grid-column: 1 / span 2;
+  }
+
+  .dices {
+    margin-bottom: 2rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    place-items: center;
+    row-gap: 1rem;
+  }
+  .dices div:nth-child(10) {
+    grid-column: 2;
+  }
+}
+
+@media screen and (max-width: 330px) {
+  .dices {
+    margin-bottom: 2rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    place-items: center;
+    row-gap: 0.5rem;
+  }
+  /* .game-data {
+    column-gap: 0.5rem;
+
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+
+  .key {
+    font-size: 0.6rem;
+  }
+
+  .value {
+    font-size: 0.7rem;
+  }
+
+  .game-data-item {
+    height: 3rem;
+    width: 4rem;
+  } */
+}
