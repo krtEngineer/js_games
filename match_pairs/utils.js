@@ -132,6 +132,6 @@ const validateResult = (result) => {
  * @param {*} result
  * @returns
  */
-const isResultValid = (result) => {
+export const isResultValid = (result) => {
   return result !== null && result !== undefined && result !== NaN;
 };

@@ -9,11 +9,14 @@ export const getBlocksStruct = (content = `&#10044;`) => {
   return blocksInnerHTML;
 };
 
-export const defaultEmojiContent = `&#10044;`;
-
-export const getBlockStruct = (content, index, isSelected) => {
+export const getBlockStruct = (
+  content,
+  index,
+  isSelected,
+  isLocked = false
+) => {
   let dataContent = getDataContent(isSelected, content);
-  let classString = getClassStr(isSelected);
+  let classString = getClassStr(isLocked, isSelected);
   return `<div class="${classString}" 
   data-id=${index} 
   data-content=${dataContent}>

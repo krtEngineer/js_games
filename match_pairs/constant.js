@@ -1,6 +1,8 @@
 export const minEmojieCount = 0;
 export const maxEmojiecount = 16;
 export const maxScore = maxEmojiecount / 2;
+export const defaultEmojiContent = `&#10044;`;
+
 /**
  * Emojies list
  * total emojis = 16
