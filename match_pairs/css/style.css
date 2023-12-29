@@ -382,3 +382,30 @@ body {
 .game-btn {
   background: #0b2434;
 }
+/*
+* * if screen width is less than 450px
+*/
+
+@media screen and (max-width: 400px) {
+  /* block */
+  .block {
+    height: 3.5rem;
+    width: 3.5rem;
+    border-radius: var(--borderRadius);
+  }
+  .block-content {
+    font-size: 2rem;
+  }
+}
+
+@media screen and (max-width: 350px) {
+  .game-data-item {
+    min-width: 5rem;
+  }
+  .key {
+    font-size: 0.55rem;
+  }
+  .value {
+    font-size: 0.7rem;
+  }
+}
