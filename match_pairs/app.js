@@ -81,7 +81,8 @@ const blockClickListener = (e) => {
     if (!areSelectedBlocksSame(index_1, index_2)) {
       //1. get new score
       let previousScore = gameVariables.pairsMatched;
-      let newScore = getNewScore(previousScore);
+      setNewScore();
+      let newScore = gameVariables.pairsMatched;
 
       if (previousScore === newScore) {
         //then make selected blocks default
@@ -110,8 +111,10 @@ const blockClickListener = (e) => {
         throw new Error("Invalid score");
       }
     }
-
     setSelectedBlocks();
+    if (isGameFinished()) {
+      setTimeout(initializeGame, 1000);
+    }
   }
 };
 
@@ -155,15 +158,14 @@ const getNewBlockContent = (
   return getBlockStruct(content, selectedIndex, isSelected, isLocked);
 };
 
-const getNewScore = (score) => {
-  if (!isGameFinished(score)) {
-    score += areBlocksSame();
+const setNewScore = () => {
+  if (!isGameFinished()) {
+    gameVariables.pairsMatched += areBlocksSame();
   }
-  return score;
 };
 
-const isGameFinished = (score) => {
-  return score === maxScore;
+const isGameFinished = () => {
+  return gameVariables.pairsMatched === maxScore;
 };
 
 const areBlocksSame = () => {
