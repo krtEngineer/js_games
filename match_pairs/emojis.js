@@ -1,8 +1,9 @@
 import { getRandomIndex, getHtmlCode } from "./utils.js";
 
-const minEmojieCount = 1;
+const minEmojieCount = 0;
 const maxEmojiecount = 16;
 const randomizationCount = 300;
+let randomIndices = [];
 
 export const getEmojieList = (length) => {
   try {
@@ -42,26 +43,45 @@ const getEmptyString = (length) => {
 };
 
 const validateLength = (length) => {
-  if (isLengthValid(length)) {
+  if (!isLengthValid(length)) {
     throw new Error("Invalid length for emojies list.");
   }
 };
 
-const isLengthValid = () => {
+const isLengthValid = (length) => {
   return length >= minEmojieCount && length <= maxEmojiecount;
 };
 
 const getRandomEmojieList = (length) => {
   const emojieList = [];
-  for (let i = 0; i < length; i++) {
-    emojieList.push(getRandomEmojieCode());
-  }
+  const uniqueRandomIndices = getUniqueRandomIndices(length);
+  uniqueRandomIndices.map((index) => {
+    const code = getEmojieCode(index);
+    emojieList.push(code);
+  });
   return emojieList;
 };
 
-const getRandomEmojieCode = () => {
-  const randomIndex = getRandomIndex(minEmojieCount, maxEmojiecount);
-  return getHtmlCode(emojis[randomIndex].html);
+const getEmojieCode = (index) => {
+  return getHtmlCode(emojiies[index].html);
+};
+
+const getUniqueRandomIndices = (length) => {
+  while (!areAllIndicesUnique(randomIndices, length)) {
+    const randomIndex = getRandomIndex(minEmojieCount, maxEmojiecount);
+    randomIndices.push(randomIndex);
+  }
+  return getUniqueIndices(randomIndices);
+};
+
+const areAllIndicesUnique = (indices, length) => {
+  const indexSet = new Set(indices);
+  return indexSet.size === length;
+};
+
+const getUniqueIndices = (indices) => {
+  const indexSet = new Set(indices);
+  return [...indexSet];
 };
 
 // total emojis = 16
