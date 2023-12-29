@@ -2,8 +2,6 @@ import { getRandomIndex, getHtmlCode } from "./utils.js";
 
 const minEmojieCount = 0;
 const maxEmojiecount = 16;
-const randomizationCount = 300;
-let randomIndices = [];
 
 export const getEmojieList = (length) => {
   try {
@@ -13,33 +11,6 @@ export const getEmojieList = (length) => {
   } catch (e) {
     throw e;
   }
-};
-
-const getDoubledEmojieList = (randomEmojieList, doubledLength) => {
-  const emojieList = Array.from(getEmptyString(doubledLength));
-  let attempts = randomizationCount;
-  while (randomEmojieList.length > 0 && attempts > 0) {
-    const emojieIndex = randomEmojieList.length - 1; //last index of emojie list
-    const firstIndex = getRandomIndex(0, doubledLength / 2);
-    const secondIndex = getRandomIndex(doubledLength / 2, doubledLength);
-    if (emojieList[firstIndex] === " " && emojieList[secondIndex] === " ") {
-      // set emojie at firstIndex and SecondIndex in emojie list
-      emojieList[firstIndex] = randomEmojieList[emojieIndex];
-      emojieList[secondIndex] = randomEmojieList[emojieIndex];
-      // pop current emojie from random emojie list => reducing length by 1
-      randomEmojieList.pop();
-    }
-    attempts--;
-  }
-  return emojieList;
-};
-
-const getEmptyString = (length) => {
-  let emptyStr = "";
-  for (let i = 0; i < length; i++) {
-    emptyStr += " ";
-  }
-  return emptyStr;
 };
 
 const validateLength = (length) => {
@@ -54,7 +25,11 @@ const isLengthValid = (length) => {
 
 const getRandomEmojieList = (length) => {
   const emojieList = [];
-  const uniqueRandomIndices = getUniqueRandomIndices(length);
+  const uniqueRandomIndices = getUniqueRandomIndices(
+    length,
+    minEmojieCount,
+    maxEmojiecount
+  );
   uniqueRandomIndices.map((index) => {
     const code = getEmojieCode(index);
     emojieList.push(code);
@@ -66,9 +41,10 @@ const getEmojieCode = (index) => {
   return getHtmlCode(emojiies[index].html);
 };
 
-const getUniqueRandomIndices = (length) => {
+const getUniqueRandomIndices = (length, min, max) => {
+  let randomIndices = [];
   while (!areAllIndicesUnique(randomIndices, length)) {
-    const randomIndex = getRandomIndex(minEmojieCount, maxEmojiecount);
+    const randomIndex = getRandomIndex(min, max);
     randomIndices.push(randomIndex);
   }
   return getUniqueIndices(randomIndices);
@@ -82,6 +58,26 @@ const areAllIndicesUnique = (indices, length) => {
 const getUniqueIndices = (indices) => {
   const indexSet = new Set(indices);
   return [...indexSet];
+};
+
+const getDuplicateIndices = (length) => {
+  const halvedLength = length / 2;
+  const duplicateIndices = [];
+  getUniqueRandomIndices(length, minEmojieCount, maxEmojiecount).map(
+    (index) => {
+      duplicateIndices.push(index % halvedLength);
+    }
+  );
+  return duplicateIndices;
+};
+console.log(getDuplicateIndices(16));
+
+const getDoubledEmojieList = (randomEmojieList, length) => {
+  let emojieList = [];
+  getDuplicateIndices(length).map((index) => {
+    emojieList.push(randomEmojieList[index]);
+  });
+  return emojieList;
 };
 
 // total emojis = 16
