@@ -366,6 +366,12 @@ body {
 /* selected block */
 .selected {
   background: var(--white);
+  border: 2px solid #ec3b83;
+}
+
+/* locked block */
+.locked {
+  background: var(--white);
   border: 2px solid #228b22;
 }
 
