@@ -21,8 +21,14 @@ export const getBlockStruct = (content, index, isSelected) => {
   </div>`;
 };
 
-const getClassStr = (isSelected) => {
-  if (isSelected) {
+const getClassStr = (isLocked = false, isSelected) => {
+  /**
+   * Priority of locked block is high.
+   * If block is locked then no need to check if it is selected or not
+   */
+  if (isLocked) {
+    return `block-content locked`;
+  } else if (isSelected) {
     return `block-content selected`;
   } else {
     return `block-content`;
