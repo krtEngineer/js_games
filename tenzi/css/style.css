@@ -480,6 +480,9 @@ dice sixth face
   .dices div:nth-child(10) {
     grid-column: 2;
   }
+  .hide {
+    display: none;
+  }
 }
 
 @media screen and (max-width: 330px) {
@@ -491,23 +494,7 @@ dice sixth face
     place-items: center;
     row-gap: 0.5rem;
   }
-  /* .game-data {
-    column-gap: 0.5rem;
-
-    justify-content: space-between;
-    margin-bottom: 1rem;
+  .hide {
+    display: none;
   }
-
-  .key {
-    font-size: 0.6rem;
-  }
-
-  .value {
-    font-size: 0.7rem;
-  }
-
-  .game-data-item {
-    height: 3rem;
-    width: 4rem;
-  } */
 }
