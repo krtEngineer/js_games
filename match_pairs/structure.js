@@ -34,7 +34,7 @@ const getClassStr = (isLocked = false, isSelected) => {
   } else if (isSelected) {
     return `block-content selected`;
   } else {
-    return `block-content`;
+    return `default-icon-color block-content`;
   }
 };
 
