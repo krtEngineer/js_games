@@ -28,6 +28,8 @@ const gameDescription = document.querySelector(".game-desc");
 const fruitItems = document.querySelectorAll(".fruit-item");
 const timerElement = document.querySelector("#timer");
 const scoreElement = document.querySelector("#score");
+const bestScoreElement = document.querySelector("#best-score");
+
 /**
  * Start clock
  */
@@ -65,15 +67,16 @@ const finishGame = () => {
      * set to intital screen
      */
     time = 0;
+    setBestScore();
     score = 0;
-    bestScore = 100;
     clearInterval(timer);
     clearInterval(gameFinishTimer);
     clearInterval(fruitReSetTimer);
     removeFruits();
-    setTimeout(setInitialScreen, 1000);
+    setTimeout(setInitialScreen, 2000);
   }
 };
+
 let currFruitCount = null;
 
 const reSetFruits = () => {
@@ -126,6 +129,8 @@ gameBtn.addEventListener("click", (e) => {
     timer = setInterval(setTime, 1000);
     gameFinishTimer = setInterval(finishGame, 500);
     fruitReSetTimer = setInterval(reSetFruits, 500);
+    setBestScore();
+    setScore(0);
   } else {
     /**
      * hide image container
@@ -147,12 +152,13 @@ gameBtn.addEventListener("click", (e) => {
     if (gameData.classList.contains("hide")) {
       gameData.classList.remove("hide");
     }
-    container;
     gameBtn.textContent = "play again";
     time = maxTimeSeconds;
     timer = setInterval(setTime, 1000);
     gameFinishTimer = setInterval(finishGame, 500);
     fruitReSetTimer = setInterval(reSetFruits, 500);
+    setBestScore();
+    setScore(0);
   }
 });
 
@@ -175,13 +181,25 @@ const addFruitItems = () => {
       ) {
         grandParent.innerHTML = ``;
         currFruitCount--;
-        setScore();
+        setScore(++score);
       }
     });
   });
 };
 
-const setScore = () => {
-  score++;
+const setScore = (score) => {
   scoreElement.textContent = `${score}`;
+};
+
+/**
+ * setting best score
+ */
+
+const setBestScore = () => {
+  if (score >= bestScore) {
+    bestScore = score;
+    localStorage.setItem("bestScore", bestScore);
+  }
+  bestScore = localStorage.getItem("bestScore");
+  bestScoreElement.textContent = `${bestScore}`;
 };
