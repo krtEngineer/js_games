@@ -2,8 +2,6 @@ import { getFruitHTML } from "./fruit.js";
 
 const fruitEmojies = document.querySelectorAll("#fruit-emoji");
 
-console.log(fruitEmojies);
-
 fruitEmojies.forEach((fruitEmoji) => {
   fruitEmoji.addEventListener("click", (e) => {
     let target = e.target;
@@ -29,33 +27,15 @@ const imgContainer = document.querySelector(".img-container");
 const gameDescription = document.querySelector(".game-desc");
 const fruitItems = document.querySelectorAll(".fruit-item");
 const timerElement = document.querySelector("#timer");
-
-const addFruitItems = () => {
-  fruitItems.forEach((fruitItem) => {
-    fruitItem.innerHTML = getFruitHTML();
-    let fruitEmoji = fruitItem.children[0].children[0];
-    fruitEmoji.addEventListener("click", (e) => {
-      let target = e.target;
-      let parent = target.parentNode;
-      let grandParent = parent.parentNode;
-      if (
-        parent.classList.contains("fruit") &&
-        parent.classList.contains("drop-fruit")
-      ) {
-        grandParent.innerHTML = ``;
-      }
-    });
-  });
-};
-
+const scoreElement = document.querySelector("#score");
 /**
  * Start clock
  */
-let time = 15;
+let maxTimeSeconds = 15;
+let time = maxTimeSeconds;
 
 const setTime = () => {
   if (time > 0) {
-    console.log(time);
     timerElement.textContent = getFormattedTime();
     time--;
   }
@@ -89,8 +69,16 @@ const finishGame = () => {
     bestScore = 100;
     clearInterval(timer);
     clearInterval(gameFinishTimer);
+    clearInterval(fruitReSetTimer);
     removeFruits();
     setTimeout(setInitialScreen, 1000);
+  }
+};
+let currFruitCount = null;
+
+const reSetFruits = () => {
+  if (time > 0 && currFruitCount === 0) {
+    addFruitItems();
   }
 };
 
@@ -104,7 +92,6 @@ const setInitialScreen = () => {
   container.style.gridTemplateRows = "2rem 3px 1fr 4rem 2rem";
   if (!gameContainer.classList.contains("hide")) {
     gameContainer.classList.add("hide");
-    addFruitItems();
   }
   if (!gameData.classList.contains("hide")) {
     gameData.classList.add("hide");
@@ -116,12 +103,14 @@ const removeFruits = () => {
   fruitItems.forEach((fruitItem) => {
     fruitItem.innerHTML = "";
   });
+  currFruitCount = 0;
 };
 
 let score = 0;
 let bestScore = 0;
 let gameFinishTimer;
 let timer;
+let fruitReSetTimer;
 
 // const gameFinishTimer = setInterval(finishGame, 500);
 
@@ -132,10 +121,11 @@ gameBtn.addEventListener("click", (e) => {
      * add fruit items again
      * restart timer
      */
-    time = 15;
+    time = maxTimeSeconds;
     addFruitItems();
     timer = setInterval(setTime, 1000);
     gameFinishTimer = setInterval(finishGame, 500);
+    fruitReSetTimer = setInterval(reSetFruits, 500);
   } else {
     /**
      * hide image container
@@ -157,9 +147,41 @@ gameBtn.addEventListener("click", (e) => {
     if (gameData.classList.contains("hide")) {
       gameData.classList.remove("hide");
     }
+    container;
     gameBtn.textContent = "play again";
-    time = 15;
+    time = maxTimeSeconds;
     timer = setInterval(setTime, 1000);
     gameFinishTimer = setInterval(finishGame, 500);
+    fruitReSetTimer = setInterval(reSetFruits, 500);
   }
 });
+
+const addFruitItems = () => {
+  fruitItems.forEach((fruitItem) => {
+    fruitItem.innerHTML = getFruitHTML();
+    if (currFruitCount === null) {
+      currFruitCount = 1;
+    } else {
+      currFruitCount++;
+    }
+    let fruitEmoji = fruitItem.children[0].children[0];
+    fruitEmoji.addEventListener("click", (e) => {
+      let target = e.target;
+      let parent = target.parentNode;
+      let grandParent = parent.parentNode;
+      if (
+        parent.classList.contains("fruit") &&
+        parent.classList.contains("drop-fruit")
+      ) {
+        grandParent.innerHTML = ``;
+        currFruitCount--;
+        setScore();
+      }
+    });
+  });
+};
+
+const setScore = () => {
+  score++;
+  scoreElement.textContent = `${score}`;
+};
