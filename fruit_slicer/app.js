@@ -33,7 +33,7 @@ const bestScoreElement = document.querySelector("#best-score");
 /**
  * Start clock
  */
-let maxTimeSeconds = 15;
+let maxTimeSeconds = 60;
 let time = maxTimeSeconds;
 
 const setTime = () => {
