@@ -13,8 +13,10 @@ const isGameFinished = () => {
 
 export const settleGame = () => {
   if (isGameFinished()) {
-    clearAllTimers();
-    setInitialView();
+    setTimeout(() => {
+      clearAllTimers();
+      setInitialView();
+    }, 1000);
   }
 };
 
