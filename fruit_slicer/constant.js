@@ -1,3 +1,12 @@
+export const maximumTime = 60;
+export const containerGridRowStyle = {
+  initialView: "2rem 3px 1fr 4rem 2rem",
+  gameView: "2rem 3px 3rem 1fr 2rem",
+};
+export const gameBtnContent = {
+  initialContent: "new game",
+  gameContent: "play again",
+};
 export const emojies = [
   {
     html: "&#127815;",
