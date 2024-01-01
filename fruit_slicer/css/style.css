@@ -278,10 +278,10 @@ body {
   border-radius: var(--borderRadius);
   text-align: center;
   display: grid;
-  grid-template-rows: 2rem 3px 3rem 1fr 2rem;
+  /* grid-template-rows: 2rem 3px 3rem 1fr 2rem; */
   row-gap: 4px;
   /* for initial view */
-  /* grid-template-rows: 2rem 3px 4rem 2rem; */
+  grid-template-rows: 2rem 3px 1fr 4rem 2rem;
 }
 
 .game-title {
@@ -291,6 +291,11 @@ body {
 .game-title-ul {
   height: 0.15rem;
   background: var(--grey-400);
+}
+
+.main-img {
+  height: 100%;
+  width: 100%;
 }
 
 .game-desc {

@@ -15,3 +15,7 @@ fruitEmojies.forEach((fruitItem) => {
     }
   });
 });
+
+/**
+ * setting initial view
+ */
