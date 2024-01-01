@@ -61,7 +61,7 @@ export const setCalculatedBestScore = () => {
 
 export const getCalculatedBestScore = (score) => {
   let bestScore = localStorage.getItem("bestScore");
-  if (score > bestScore) {
+  if (score >= bestScore) {
     bestScore = score;
     localStorage.setItem("bestScore", bestScore);
   }
