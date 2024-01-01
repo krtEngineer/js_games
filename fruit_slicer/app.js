@@ -73,7 +73,7 @@ const finishGame = () => {
     clearInterval(gameFinishTimer);
     clearInterval(fruitReSetTimer);
     removeFruits();
-    setTimeout(setInitialScreen, 2000);
+    setTimeout(setInitialScreen, 1000);
   }
 };
 
@@ -196,10 +196,10 @@ const setScore = (score) => {
  */
 
 const setBestScore = () => {
+  bestScore = localStorage.getItem("bestScore");
   if (score >= bestScore) {
     bestScore = score;
     localStorage.setItem("bestScore", bestScore);
   }
-  bestScore = localStorage.getItem("bestScore");
   bestScoreElement.textContent = `${bestScore}`;
 };
