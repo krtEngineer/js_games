@@ -77,3 +77,59 @@ export const getFormattedTime = (time) => {
     return `00:00`;
   }
 };
+
+export const getSlotCount = (time) => {
+  if (time <= 60 && time > 50) {
+    return 1;
+  } else if (time <= 50 && time > 40) {
+    return 2;
+  } else if (time <= 40 && time > 30) {
+    return 3;
+  } else if (time <= 30 && time > 20) {
+    return 4;
+  } else if (time <= 20 && time > 10) {
+    return 5;
+  } else if (time <= 10 && time > 0) {
+    return 6;
+  } else {
+    return 0;
+  }
+};
+
+/**
+ * @description method to get unique random values
+ * @param {*} length
+ * @param {*} min bottom limit for random value
+ * @param {*} max top limit for random value, excluded
+ * @returns array
+ */
+export const getUniqueRandomValues = (length, min, max) => {
+  if (length <= 0) {
+    throw new Error(`Invalid length expected. Length: ${length}`);
+  }
+  let randomValues = [];
+  while (randomValues.length < length) {
+    const randomIndex = getRandomValue(min, max);
+    randomValues.push(randomIndex);
+    randomValues = getUniqueValues(randomValues);
+  }
+  return randomValues;
+};
+
+/**
+ * @description method to get unique elements of any array
+ * @param {*} arr
+ * @returns array
+ */
+const getUniqueValues = (arr) => {
+  return [...getArraySet(arr)];
+};
+
+/**
+ * @description method to get set from array values
+ * @param {*} arr array to be converted to set
+ * @returns set
+ */
+const getArraySet = (arr) => {
+  return new Set(arr);
+};

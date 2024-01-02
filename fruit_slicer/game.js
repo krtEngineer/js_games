@@ -5,7 +5,7 @@ import {
   setGameView,
   setGameDataContent,
 } from "./game-view.js";
-import { addFruitItems } from "./fruit.js";
+import { setFruits } from "./fruit.js";
 
 const isGameFinished = () => {
   return getTime() === 0;
@@ -29,5 +29,5 @@ export const reStartGame = () => {
   clearAllTimers();
   setGameDataContent();
   setAllTimers();
-  addFruitItems();
+  setFruits();
 };

@@ -6,6 +6,7 @@ const timer = {
   clockTimer: null,
   fruitReSetTimer: null,
   settleGameTimer: null,
+  fruitCountTimer: null,
 };
 
 const clock = () => {
@@ -41,7 +42,7 @@ export const clearSettleGameTimer = () => {
 
 export const setAllTimers = () => {
   setClockTimer(1000);
-  setFruitResetTimer(500);
+  setFruitResetTimer(100);
   setSettleGameTimer(500);
 };
 

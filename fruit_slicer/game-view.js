@@ -5,7 +5,7 @@ import {
   maximumTime,
 } from "./constant.js";
 import { setScore, setTime, setCalculatedBestScore } from "./game-variable.js";
-import { addFruitItems, removeFruits } from "./fruit.js";
+import { setFruits, removeFruits } from "./fruit.js";
 
 const gameBtn = getElement(".game-btn");
 const container = getElement(".container");
@@ -47,7 +47,8 @@ const hideGameDesc = () => {
 const showGameContainer = () => {
   if (gameContainer.classList.contains("hide")) {
     gameContainer.classList.remove("hide");
-    addFruitItems();
+    // addFruitItems();
+    setFruits();
   }
 };
 

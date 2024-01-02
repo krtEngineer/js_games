@@ -372,7 +372,7 @@ body {
 
 .drop-fruit {
   animation-name: drop-fruit;
-  animation-duration: 4s;
+  animation-duration: 3s;
   animation-iteration-count: infinite;
   animation-timing-function: linear;
 }

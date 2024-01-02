@@ -4,6 +4,7 @@ import {
   setBestScoreElement,
 } from "./doc-element.js";
 import { maximumTime } from "./constant.js";
+import { getElement } from "./utils.js";
 
 /**
  * game variables
@@ -32,7 +33,6 @@ export const setBestScore = (bestScore) => {
   setBestScoreElement(bestScore);
 };
 export const setCurrFruitCount = (currFruitCount) => {
-  console.log(currFruitCount);
   gameVariables.currFruitCount = currFruitCount;
 };
 

@@ -1,5 +1,6 @@
 import { gameBtnContent } from "./constant.js";
 import { reStartGame, startGame } from "./game.js";
+import { setFruitRow } from "./fruit.js";
 import { getElement } from "./utils.js";
 
 const gameBtn = getElement(".game-btn");
