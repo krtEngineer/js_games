@@ -4,7 +4,12 @@ import {
   gameBtnContent,
   maximumTime,
 } from "./constant.js";
-import { setScore, setTime, setCalculatedBestScore } from "./game-variable.js";
+import {
+  setScore,
+  setTime,
+  setCalculatedBestScore,
+  setCurrFruitCount,
+} from "./game-variable.js";
 import { setFruits, removeFruits } from "./fruit.js";
 
 const gameBtn = getElement(".game-btn");
@@ -63,6 +68,7 @@ export const setGameDataContent = () => {
   setTime(maximumTime);
   setCalculatedBestScore();
   setScore(0);
+  setCurrFruitCount(0);
 };
 
 const showImgContainer = () => {
