@@ -6,7 +6,6 @@ const timer = {
   clockTimer: null,
   fruitReSetTimer: null,
   settleGameTimer: null,
-  fruitCountTimer: null,
 };
 
 const clock = () => {
